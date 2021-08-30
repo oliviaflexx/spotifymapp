@@ -7,8 +7,7 @@
     <title>Found Songs</title>
 </head>
 <body>
-    <% for(let track of tracks) {%>
-        <p> <%= track.name + track.artists[0].name%>  </p>
-    <% } %> 
+    <p> <%= `Song: ${track.name} by: ${track.artists[0].name}` %>  </p>
+    <iframe src="https://open.spotify.com/embed/track/<%= track.id %>" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 </body>
 </html>

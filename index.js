@@ -34,16 +34,15 @@ app.get('/', (req, res) => {
 app.post('/findSong', async (req, res) => {
     const { song, artist} = req.body
 
-    const tracks = await spotifyApi.searchTracks(`track:${song} artist:${artist}`, {limit: 5, offset: 0})
+    const track = await spotifyApi.searchTracks(`track:${song} artist:${artist}`, {limit: 1, offset: 0})
         .then(function(data) {
-        console.log(data.body.tracks.items)
-        console.log('track:'+ data.body.tracks.items);
-        return data.body.tracks.items
+        console.log(data.body.tracks.items[0].artists[0].name)
+        return data.body.tracks.items[0]
         }, function(err) {
         console.log('Something went wrong!', err);
     });
-
-    res.render('foundsongs', {tracks:tracks})
+    console.log(track.album.images)
+    res.render('foundsongs', {track:track})
 
 })
 
