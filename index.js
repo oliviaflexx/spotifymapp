@@ -1,9 +1,11 @@
 const express = require("express");
 const app = express()
 
+app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-    res.send('Welcome to the home page!')
+    const num = 1 + 3;
+    res.render('home', {num: num})
 })
 
 app.listen(8080, () => {
