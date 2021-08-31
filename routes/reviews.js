@@ -22,7 +22,7 @@ const validateReview = (req, res, next) => {
 
 router.post('/', validateReview, catchAsync(async (req, res) => {
     const song = await Song.findById(req.params.id);
-    const review = new Review(req.body.review);
+    const review = await new Review(req.body.review);
     song.reviews.push(review);
     await review.save();
     await song.save();

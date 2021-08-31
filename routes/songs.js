@@ -5,6 +5,8 @@ const { songSchema } = require('../schemas.js');
 const appJs = require('../app.js')
 const ExpressError = require('../utils/ExpressError');
 const Song = require('../models/song');
+const Like = require('../models/like');
+const like = require('../models/like');
 
 const validateSong = (req, res, next) => {
     const { error } = songSchema.validate(req.body);
@@ -61,6 +63,18 @@ router.get('/:id', catchAsync(async (req, res,) => {
         return res.redirect('/songs');
     }
     res.render('songs/show', { song });
+}));
+
+//liked
+router.post('/:id', catchAsync(async (req, res,) => {
+    const song = await Song.findById(req.params.id);
+    if (req.body.liked === 'true') {
+        const like = await new Like({liked: true});
+        song.likes.push(like);
+        await song.save();
+        await like.save();
+    }
+    return res.redirect(`/songs/${req.params.id}`);
 }));
 
 router.delete('/:id', catchAsync(async (req, res) => {
