@@ -1,0 +1,44 @@
+<% layout('layouts/boilerplate')%>
+<div class="row">
+    <a href="/songs">Go back to songs</a>
+    <div class="col-6">
+        <div class="card mb-3">
+            <img src="<%= song.image%>" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title"><%= song.title%> by <%= song.artist %> </h5>
+                <p class="card-text"><%= song.description%></p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-muted"><%= song.location%></li>
+            </ul>
+            <div class="card-body">
+                <form class="d-inline" action="/songs/<%=song._id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+<div class="col-6">
+    <h2>Leave a Review</h2>
+    <form action="/songs/<%=song._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
+        <div class="mb-3">
+            <label class="form-label" for="rating">Rating</label>
+            <input class="form-range" type="range" min="1" max="10" name="review[rating]" id="rating">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="body">Review</label>
+            <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+        </div>
+        <button class="btn btn-success">Submit</button>
+    </form>
+    <% for(let review of song.reviews) { %>
+    <div class="card mb-3 ">
+        <div class="card-body">
+            <h5 class="card-title">Rating: <%= review.rating %></h5>
+            <p class="card-text">Review: <%= review.body %></p>
+            <form action="/songs/<%=song._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+                <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+        </div>
+    </div>
+    <% } %>
+</div>

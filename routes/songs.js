@@ -22,6 +22,7 @@ router.get('/', catchAsync(async (req, res) => {
     res.render('songs/index', { songs })
  
 }));
+
 router.get('/new', (req, res) => {
     res.render('songs/new')
 });
@@ -52,5 +53,20 @@ router.post('/', validateSong, catchAsync(async (req, res, next) => {
     res.redirect('/songs')
 
 }))
+
+router.get('/:id', catchAsync(async (req, res,) => {
+    const song = await Song.findById(req.params.id).populate('reviews');
+    if (!song) {
+        req.flash('error', 'Cannot find that campground!');
+        return res.redirect('/songs');
+    }
+    res.render('songs/show', { song });
+}));
+
+router.delete('/:id', catchAsync(async (req, res) => {
+    const { id } = req.params;
+    await Song.findByIdAndDelete(id);
+    res.redirect('/songs');
+}));
 
 module.exports = router;

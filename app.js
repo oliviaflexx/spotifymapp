@@ -9,6 +9,7 @@ const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 
 const songs = require('./routes/songs');
+const reviews = require('./routes/reviews');
 
 mongoose.connect('mongodb://localhost:27017/spotifymapp',
     err => {
@@ -55,7 +56,7 @@ spotifyApi.clientCredentialsGrant().then(
 module.exports.theSpotifyApi = spotifyApi;
 
 app.use('/songs', songs)
-// app.use('/songs/:id/reviews', reviews)
+app.use('/songs/:id/reviews', reviews)
 
 app.get('/', (req, res) => {
     res.render('home')
