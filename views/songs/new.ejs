@@ -1,0 +1,17 @@
+<% layout('layouts/boilerplate')%>
+<h1>Add New Song</h1>
+<form action="/songs" method="POST">
+    <label for="song">Song Title</label>
+    <input id="song" type='text' name="song[title]">
+
+    <label for="artist">Artist Name</label>
+    <input id="artist" type='text' name="song[artist]">
+
+    <label for="location">Location</label>
+    <input id="location" type='text' name="song[location]">
+
+    <label for="description">Description</label>
+    <textarea id="description" type='text' name="song[description]"></textarea>
+
+    <button type='submit'>Submit</button>
+</form>

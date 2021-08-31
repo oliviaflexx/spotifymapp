@@ -1,0 +1,24 @@
+<% layout('layouts/boilerplate')%>
+<h1>All Songs</h1>
+<div>
+    <a href="/songs/new">Add Song</a>
+</div>
+<% for(let song of songs) { %> 
+    <div class="card" mb-3>
+        <div class="row">
+            <div class="col-md-4">
+                <img class="img-fluid" alt="" src="<%=song.image%>">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title"><%= song.title %> by <%= song.artist %> </h5>
+                    <p class="card-text"><%= song.description %></p>
+                    <p class="card-text">
+                        <small class="text-muted"><%= song.location%></small>
+                    </p>
+                    <iframe src="https://open.spotify.com/embed/track/<%= song.spotify_id %>" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% }%>
