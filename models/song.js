@@ -21,7 +21,11 @@ const SongSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Like'
         }
-    ]
+    ],
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 SongSchema.post('findOneAndDelete', async function (doc) {

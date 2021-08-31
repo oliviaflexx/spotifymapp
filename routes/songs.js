@@ -1,22 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
-const { songSchema } = require('../schemas.js');
 const appJs = require('../app.js')
 const ExpressError = require('../utils/ExpressError');
 const Song = require('../models/song');
 const Like = require('../models/like');
-const like = require('../models/like');
-
-const validateSong = (req, res, next) => {
-    const { error } = songSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg, 400)
-    } else {
-        next();
-    }
-}
+const { isLoggedIn, isAuthor, validateSong } = require('../middleware');
 
 // get all songs
 router.get('/', catchAsync(async (req, res) => {
@@ -25,12 +14,12 @@ router.get('/', catchAsync(async (req, res) => {
  
 }));
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('songs/new')
 });
 
 // Add new song
-router.post('/', validateSong, catchAsync(async (req, res, next) => {
+router.post('/', isLoggedIn, validateSong, catchAsync(async (req, res, next) => {
     const { title, artist} = req.body.song;
     const track = await appJs.theSpotifyApi.searchTracks(`track:${title} artist:${artist}`, {limit: 1, offset: 0})
         .then(function(data) {
@@ -47,7 +36,9 @@ router.post('/', validateSong, catchAsync(async (req, res, next) => {
             description: req.body.song.description,
             location: req.body.song.location
         });
+        song.author = req.user._id;
         await song.save();
+
     } else {
         throw new ExpressError('Song not found in Spotify Api', 400)
     }
@@ -56,28 +47,38 @@ router.post('/', validateSong, catchAsync(async (req, res, next) => {
 
 }))
 
+// show a song
 router.get('/:id', catchAsync(async (req, res,) => {
-    const song = await Song.findById(req.params.id).populate('reviews');
+    // const song = await Song.findById(req.params.id).populate('reviews');
+    const song = await Song.findById(req.params.id).populate({
+        path: 'reviews',
+        populate: {
+            path: 'author'
+        }
+    }).populate('author');
+    console.log(song)
     if (!song) {
-        req.flash('error', 'Cannot find that campground!');
+        // req.flash('error', 'Cannot find that song!');
         return res.redirect('/songs');
     }
     res.render('songs/show', { song });
 }));
 
 //liked
-router.post('/:id', catchAsync(async (req, res,) => {
-    const song = await Song.findById(req.params.id);
+router.post('/:id', isLoggedIn, catchAsync(async (req, res,) => {
+
     if (req.body.liked === 'true') {
+        const song = await Song.findById(req.params.id);
         const like = await new Like({liked: true});
+        like.author = req.user._id;
         song.likes.push(like);
         await song.save();
         await like.save();
-    }
+    }   
     return res.redirect(`/songs/${req.params.id}`);
 }));
 
-router.delete('/:id', catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
     const { id } = req.params;
     await Song.findByIdAndDelete(id);
     res.redirect('/songs');
