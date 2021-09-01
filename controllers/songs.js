@@ -2,6 +2,10 @@ const Song = require('../models/song');
 const Like = require('../models/like');
 const appJs = require('../app.js')
 const ExpressError = require('../utils/ExpressError');
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+require("dotenv").config();
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 module.exports.renderAllSongs = async (req, res) => {
     const songs = await Song.find({});
@@ -13,6 +17,11 @@ module.exports.renderNewSong = (req, res) => {
 }
 
 module.exports.addNewSong = async (req, res) => {
+    const geoData = await geocoder.forwardGeocode({
+        query: req.body.song.location,
+        limit: 1
+    }).send()
+    console.log(geoData.body.features[0].place_name)
     const { title, artist} = req.body.song;
     const track = await appJs.theSpotifyApi.searchTracks(`track:${title} artist:${artist}`, {limit: 1, offset: 0})
         .then(function(data) {
@@ -27,7 +36,8 @@ module.exports.addNewSong = async (req, res) => {
             image: track.album.images[0].url,
             spotify_id: track.id,
             description: req.body.song.description,
-            location: req.body.song.location
+            location: geoData.body.features[0].place_name,
+            geometry: geoData.body.features[0].geometry
         });
         song.author = req.user._id;
         await song.save();

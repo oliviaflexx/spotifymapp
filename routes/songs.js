@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 
-
 const { isLoggedIn, isAuthor, validateSong } = require('../middleware');
 const songs = require('../controllers/songs');
 

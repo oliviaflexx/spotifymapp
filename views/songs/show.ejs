@@ -19,6 +19,7 @@
             <p> <%= song.likes.length %> likes</p>
         </div>
 <div class="col-6">
+    <div id='map' style='width: 100%; height: 300px;'></div>
     <form action="/songs/<%=song._id%>" method="POST" class="mb-3 validated-form" novalidate>
         <button type="submit" value="true" name="liked">Like</button>
     </form>
@@ -44,3 +45,10 @@
         <% } %> 
     <% } %>
 </div>
+
+<script>
+    const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+    const song = <%-JSON.stringify(song)%>
+</script>
+
+<script src="/javascripts/showPageMap.js"></script>

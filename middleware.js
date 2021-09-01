@@ -18,7 +18,8 @@ module.exports.isLoggedIn = (req, res, next) => {
 }
 
 module.exports.validateSong = (req, res, next) => {
-    const { error } = songSchema.validate(req.body);
+    const { title, artist, location } = req.body;
+    const { error } = songSchema.validate(title, artist, location);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
         throw new ExpressError(msg, 400)
