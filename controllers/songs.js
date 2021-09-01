@@ -35,12 +35,11 @@ module.exports.addNewSong = async (req, res) => {
     } else {
         throw new ExpressError('Song not found in Spotify Api', 400)
     }
-    // req.flash('success', 'Successfully added a new song!');
+    req.flash('success', 'Successfully added a new song!');
     res.redirect('/songs')
 }
 
 module.exports.showSong = async (req, res,) => {
-    // const song = await Song.findById(req.params.id).populate('reviews');
     const song = await Song.findById(req.params.id).populate({
         path: 'reviews',
         populate: {
@@ -49,7 +48,7 @@ module.exports.showSong = async (req, res,) => {
     }).populate('author');
     console.log(song)
     if (!song) {
-        // req.flash('error', 'Cannot find that song!');
+        req.flash('error', 'Cannot find that song!');
         return res.redirect('/songs');
     }
     res.render('songs/show', { song });
@@ -71,5 +70,6 @@ module.exports.likeSong = async (req, res,) => {
 module.exports.deleteSong = async (req, res) => {
     const { id } = req.params;
     await Song.findByIdAndDelete(id);
+    req.flash('success', 'Successfully deleted song')
     res.redirect('/songs')
 }
