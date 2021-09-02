@@ -3,6 +3,9 @@ const Schema = mongoose.Schema;
 const Review = require('./review')
 const Like = require('./like')
 
+
+const opts = { toJSON: { virtuals: true } };
+
 const SongSchema = new Schema({
     title: String,
     artist: String,
@@ -37,6 +40,10 @@ const SongSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }
+}, opts);
+
+SongSchema.virtual('properties.popUpMarkup').get(function () {
+    return `<strong><a href="/songs/${this._id}">${this.title}</a><strong>`
 });
 
 SongSchema.post('findOneAndDelete', async function (doc) {

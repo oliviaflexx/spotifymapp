@@ -2,9 +2,9 @@ mapboxgl.accessToken = mapToken;
 console.log(song)
 const map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/light-v10', // stylesheet location
+    style: 'mapbox://styles/mapbox/outdoors-v11', // stylesheet location
     center: song.geometry.coordinates, // starting position [lng, lat]
-    zoom: 10 // starting zoom
+    zoom: 13 // starting zoom
 });
 
 new mapboxgl.Marker()
