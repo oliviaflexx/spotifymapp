@@ -96,7 +96,7 @@ app.use('/songs', songs)
 app.use('/songs/:id/reviews', reviews)
 
 app.get('/', async (req, res) => {
-    await Song.deleteMany({});
+    // await Song.deleteMany({});
     res.render('home')
 });
 

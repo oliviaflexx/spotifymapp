@@ -8,7 +8,9 @@ const songs = require('../controllers/songs');
 router.route('/')
     .get(catchAsync(songs.renderAllSongs))
 
-
+router.route('/map')
+    .get(catchAsync(songs.renderMap))
+    
 router.route('/new')
     .get(isLoggedIn, songs.renderNewSong)
     .post(isLoggedIn, validateSong, catchAsync(songs.addNewSong))

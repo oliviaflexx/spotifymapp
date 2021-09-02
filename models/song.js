@@ -43,7 +43,7 @@ const SongSchema = new Schema({
 }, opts);
 
 SongSchema.virtual('properties.popUpMarkup').get(function () {
-    return `<strong><a href="/songs/${this._id}">${this.title}</a><strong>`
+    return `<a href="/songs/${this._id}"><img class="popup_image" src="${this.image}"></img></a>`
 });
 
 SongSchema.post('findOneAndDelete', async function (doc) {

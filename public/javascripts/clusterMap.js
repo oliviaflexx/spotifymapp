@@ -1,9 +1,9 @@
 mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/light-v10',
+    style: 'mapbox://styles/mapbox/dark-v10',
     center: [-73.6138, 45.5017],
-    zoom: 11
+    zoom: 12
 });
 
 map.on('load', function () {
@@ -18,7 +18,7 @@ map.on('load', function () {
         data: songs,
         cluster: true,
         clusterMaxZoom: 14, // Max zoom to cluster points on
-        clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+        clusterRadius: 20 // Radius of each cluster when clustering points (defaults to 50)
     });
 
     map.addLayer({
@@ -35,16 +35,16 @@ map.on('load', function () {
             'circle-color': [
                 'step',
                 ['get', 'point_count'],
-                '#00BCD4',
-                10,
-                '#2196F3',
+                '#14863c',
+                20,
+                '#0e6b2f',
                 30,
-                '#3F51B5'
+                '#09411c'
             ],
             'circle-radius': [
                 'step',
                 ['get', 'point_count'],
-                15,
+                20,
                 10,
                 20,
                 30,
@@ -71,8 +71,8 @@ map.on('load', function () {
         source: 'songs',
         filter: ['!', ['has', 'point_count']],
         paint: {
-            'circle-color': '#11b4da',
-            'circle-radius': 4,
+            'circle-color': '#1DB954',
+            'circle-radius': 8,
             'circle-stroke-width': 1,
             'circle-stroke-color': '#fff'
         }

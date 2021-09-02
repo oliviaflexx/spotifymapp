@@ -1,33 +1,15 @@
 <% layout('layouts/boilerplate')%>
-<div id="map" style="width: 100%; height: 500px"></div>
 <h1>All Songs</h1>
-<div>
-    <a href="/songs/new">Add Song</a>
-</div>
-<% for(let song of songs) { %> 
-    <div class="card" mb-3>
-        <div class="row">
-            <div class="col-md-4">
-                <img class="img-fluid" alt="" src="<%=song.image%>">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title"><%= song.title %> by <%= song.artist %> </h5>
-                    <p class="card-text"><%= song.description %></p>
-                    <p class="card-text">
-                        <small class="text-muted"><%= song.location%></small>
-                    </p>
-                    <p> <%= song.likes.length %>  Likes</p>
-                    <iframe src="https://open.spotify.com/embed/track/<%= song.spotify_id %>" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-                    <a class="btn btn-primary" href="/songs/<%= song._id %> ">View <%=song.title%></a>
-                </div>
-            </div>
+<div class="row">
+    <% for(let song of songs) { %> 
+    <div class="col-xl-3 col-md-6 col-sm-6">
+        <div class="container allsongs">
+            <!-- <div class="song-info">
+                <h1><%=song.title%></h1>
+                <h2><%=song.artist%></h2>
+            </div> -->
+            <img class="allsongs" alt="" src="<%=song.image%>">
         </div>
     </div>
     <% }%>
-    <script>
-        const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
-        const songs = { features: <%- JSON.stringify(songs) %>}
-    </script>
-    
-    <script src="/javascripts/clusterMap.js"></script>
+</div>

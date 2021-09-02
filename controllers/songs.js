@@ -9,10 +9,12 @@ const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 module.exports.renderAllSongs = async (req, res) => {
     const songs = await Song.find({})
-    console.log(songs)
     res.render('songs/index', { songs })
 }
-
+module.exports.renderMap = async (req, res) => {
+    const songs = await Song.find({})
+    res.render('songs/map', { songs })
+}
 module.exports.renderNewSong = (req, res) => {
     res.render('songs/new')
 }
