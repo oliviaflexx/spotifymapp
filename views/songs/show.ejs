@@ -1,25 +1,5 @@
 <% layout('layouts/boilerplate')%>
 <div class="row">
-    <a href="/songs">Go back to songs</a>
-    <div class="col-6">
-        <div class="card mb-3">
-            <img src="<%= song.image%>" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title"><%= song.title%> by <%= song.artist %> </h5>
-                <p class="card-text"><%= song.description%></p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item text-muted"><%= song.location%></li>
-            </ul>
-            <div class="card-body">
-                <form class="d-inline" action="/songs/<%=song._id%>?_method=DELETE" method="POST">
-                    <button class="btn btn-danger">Delete</button>
-                </form>
-            </div>
-            <p> <%= song.likes.length %> likes</p>
-        </div>
-<div class="col-6">
-    <div id='map' style='width: 100%; height: 300px;'></div>
     <form action="/songs/<%=song._id%>" method="POST" class="mb-3 validated-form" novalidate>
         <button type="submit" value="true" name="liked">Like</button>
     </form>
