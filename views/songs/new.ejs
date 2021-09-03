@@ -1,17 +1,29 @@
 <% layout('layouts/boilerplate')%>
 <h1>Add New Song</h1>
-<form action="/songs/new" method="POST">
-    <label for="song">Song Title</label>
-    <input id="song" type='text' name="song[title]">
-
-    <label for="artist">Artist Name</label>
-    <input id="artist" type='text' name="song[artist]">
-
-    <label for="location">Location</label>
-    <input id="location" type='text' name="song[location]">
-
-    <label for="description">Description</label>
-    <textarea id="description" type='text' name="song[description]"></textarea>
-
-    <button type='submit'>Submit</button>
+<form autocomplete="off" action="/songs/new" method="POST">
+    <div class="row">
+        <div class="col-12">
+            <div class="row new-song">
+                <label for="song">Song Title</label>
+                <input class="new-song" id="song" type='text' name="song[title]">
+            </div>
+            <div class="row new-song">
+                <label for="artist">Artist Name</label>
+                <input class="new-song" id="artist" type='text' name="song[artist]">
+            </div>
+            <div class="row new-song">
+                <label for="location">Location</label>
+                <input class="new-song" id="location" type='text' name="song[location]">
+            </div>
+            <div class="row new-song">
+                <label class="new-song" for="description">Description (optional)</label>
+                <textarea id="description" type='text' name="song[description]"></textarea>
+            </div>
+            <div class="row new-song">
+                <button type='submit'>Submit</button>
+            </div>
+        
+        </div>
+    </div>
+    
 </form>

@@ -24,11 +24,16 @@ img.popup_image {
     
 }
 
+.navbar.navbar-dark.bg-dark.navbar-expand-lg {
+    background-color: #1b1b1b;
+    color: white;
+}
+
 a.nav-link {
     color: white;
 }
 
-a.nav-link:hover {
+.navbar-dark .navbar-nav .nav-link:hover {
     color: #1DB954;
 }
 
@@ -39,4 +44,42 @@ img.allsongs {
 
 .container.allsongs {
     margin-bottom: 10%;
+}
+
+input.new-song {
+    padding: 10px;
+    max-width: 400px;
+}
+div.row.new-song > label, div.row.new-song > textarea {
+    max-width: 400px;
+}
+
+div.row.new-song > textarea {
+    height: 100px;
+}
+
+div.row.new-song {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-right: 10%;
+    margin-left: 10%;
+    margin-top: 5%;
+}
+
+h1 {
+    text-align: center;
+}
+
+button[type="submit"] {
+    width: 30%;
+    background-color: #1DB954;
+    padding: 5px;
+    color: white;
+    border: none;
+    transition: ease-in-out;
+}
+
+button[type="submit"]:hover {
+    background-color: #1db954ab;
 }
