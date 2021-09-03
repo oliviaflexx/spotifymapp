@@ -5,36 +5,42 @@
             <% if (song.description){ %> 
                 <p><%= song.description %></p>
             <% }  %> 
-            <p> <%= song.location %>  </p>
+            <p class="light-green"> <%= song.location %>  </p>
             <iframe src="https://open.spotify.com/embed/track/<%= song.spotify_id %> " width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
             <!-- <img class="songs" src="<%=song.image%>"> -->
             <form action="/songs/<%=song._id%>" method="POST" class="mb-3 validated-form" novalidate>
                 <button type="submit" value="true" name="liked">Like</button>
             </form>
+            <%  if( currentUser && song.author.equals(currentUser._id))  {%>
+                <form class="d-inline" action="/songs/<%=song._id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Delete Song</button>
+                </form>
+            <% } %> 
 
+            <% if (currentUser) { %> 
             <h2>Leave a Review</h2>
-    <form action="/songs/<%=song._id%>/reviews" method="POST" class="mb-3 review" novalidate>
-            <label class="form-label" for="body">Review</label>
-            <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
-        <button class="btn btn-success">Submit</button>
-    </form>
+            <form action="/songs/<%=song._id%>/reviews" method="POST" class="mb-3 review" novalidate>
+                    <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+                <button class="btn btn-success">Submit</button>
+            </form>
+            <% } %> 
         </div>
     </div>
-
-    
-    <% for(let review of song.reviews) { %>
-        <% if (review.body) { %> 
-        <div class="card mb-3 ">
-            <div class="card-body">
-                <p class="card-text">Review: <%= review.body %></p>
-                <form action="/songs/<%=song._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
-                    <button class="btn btn-sm btn-danger">Delete</button>
-                </form>
-
+    <div class="row reviews">
+        <% for(let review of song.reviews) { %>
+            <% if (review.body) { %> 
+            <div class="card mb-3 ">
+                <div class="card-body">
+                    <p class="card-text"><%= review.body %></p>
+                    <form action="/songs/<%=song._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+                        <button class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </div>
             </div>
-        </div>
-        <% } %> 
-    <% } %>
+            <% } %> 
+        <% } %>
+    </div>
+    
 
 <script>
     const mapToken = '<%-process.env.MAPBOX_TOKEN%>';

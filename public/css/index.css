@@ -88,7 +88,7 @@ h1 {
 }
 
 button[type="submit"] {
-    width: 30%;
+    max-width: 100px;
     background-color: #1DB954;
     padding: 5px;
     color: white;
@@ -176,6 +176,11 @@ input.form-control {
     align-items: center;
 }
 
+.show-info.col-sm-12 > * {
+    margin-top: 3%;
+}
+
+
 .review {
     max-width: 700px;
     display: flex;
@@ -186,3 +191,20 @@ input.form-control {
 .btn-success {
     margin-top: 3%;
 }
+
+p.light-green {
+    color: #8aab8f;
+}
+
+.card {
+    max-width: 400px;
+}
+
+.row.reviews {
+    justify-content: center;
+}
+
+.row.reviews p {
+    color: black;
+}
+
