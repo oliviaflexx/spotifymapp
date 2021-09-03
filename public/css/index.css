@@ -4,6 +4,21 @@ body {
     font-family: 'Raleway', sans-serif;
 }
 
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+a#register {
+    color: #d3e8d6;
+    text-align: center;
+    margin-top: 3%;
+}
+
+a#register:hover {
+    color: #8aab8f;
+}
+
 #map {
     width: 100%; 
     height: 90vh;
@@ -37,7 +52,7 @@ a.nav-link {
     color: #1DB954;
 }
 
-img.allsongs-image {
+img.songs {
     max-width:100%;
     max-height:100%;
 }
@@ -64,11 +79,12 @@ div.row.new-song {
     flex-direction: column;
     margin-right: 10%;
     margin-left: 10%;
-    margin-top: 5%;
+    margin-top: 2.5%;
 }
 
 h1 {
     text-align: center;
+    padding: 5%;
 }
 
 button[type="submit"] {
@@ -86,10 +102,14 @@ button[type="submit"]:hover {
 
 div.allsongs {
     position: relative;
+    width: 100%;
+    height: calc(100vw / 4);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 div.song-info {
-    position: absolute;
     height: 100%;
     width: 100%;
     visibility: hidden;
@@ -114,15 +134,55 @@ div.song-info.visible {
 
 p.artist {
     font-weight: 200;
+    color: #8aab8f;
 }
 
 p.location {
     font-size: 14px;
     font-weight: 200;
-    color: #ffffff63;
+    color: #7c827c;
     padding: 5%;
 }
 
 a.see-more {
-    color: #1DB954;
+    color: #d3e8d6;
+}
+
+.navbar-collapse {
+    justify-content: flex-end;
+}
+
+form.login-form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: space-around;
+    justify-content: center;
+}
+
+input.form-control {
+    margin-bottom: 3%;
+    max-width: 300px;
+}
+
+#show-map {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.show-info.col-sm-12 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.review {
+    max-width: 700px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.btn-success {
+    margin-top: 3%;
 }

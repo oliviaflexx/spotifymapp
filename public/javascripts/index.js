@@ -35,3 +35,14 @@ $(document).ready(function(){
         $(this)[0].getElementsByClassName('song-info')[0].classList.remove('visible');
     }); 
   });
+
+
+$(document).ready(changeHeight);
+
+$(window).resize(changeHeight);
+
+function changeHeight(){
+    console.log($('div.allsongs'))
+    var container = $('div.allsongs').width();
+ $('div.allsongs').height(container)
+}

@@ -15,6 +15,7 @@ module.exports.renderMap = async (req, res) => {
     const songs = await Song.find({})
     res.render('songs/map', { songs })
 }
+
 module.exports.renderNewSong = (req, res) => {
     res.render('songs/new')
 }
@@ -88,6 +89,13 @@ module.exports.showSong = async (req, res,) => {
                 path: 'author'
             }
         }).populate('author');
+        const othersong = await Song.findById(req.params.id).populate({
+            path: 'likes',
+            populate: {
+                path: 'author'
+            }
+        }).populate('author');
+        console.log(othersong.likes)
         res.render('songs/show', { song });
     } catch (error) {
         console.log(error)

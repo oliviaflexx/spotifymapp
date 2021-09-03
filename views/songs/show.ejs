@@ -1,16 +1,27 @@
 <% layout('layouts/boilerplate')%>
-<div class="row">
-    <form action="/songs/<%=song._id%>" method="POST" class="mb-3 validated-form" novalidate>
-        <button type="submit" value="true" name="liked">Like</button>
-    </form>
-    <h2>Leave a Review</h2>
-    <form action="/songs/<%=song._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
-        <div class="mb-3">
+    <div class="row">
+        <div class="show-info col-sm-12">
+            <h4>Added by <%= song.author.username %> </h4>
+            <% if (song.description){ %> 
+                <p><%= song.description %></p>
+            <% }  %> 
+            <p> <%= song.location %>  </p>
+            <iframe src="https://open.spotify.com/embed/track/<%= song.spotify_id %> " width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            <!-- <img class="songs" src="<%=song.image%>"> -->
+            <form action="/songs/<%=song._id%>" method="POST" class="mb-3 validated-form" novalidate>
+                <button type="submit" value="true" name="liked">Like</button>
+            </form>
+
+            <h2>Leave a Review</h2>
+    <form action="/songs/<%=song._id%>/reviews" method="POST" class="mb-3 review" novalidate>
             <label class="form-label" for="body">Review</label>
             <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
-        </div>
         <button class="btn btn-success">Submit</button>
     </form>
+        </div>
+    </div>
+
+    
     <% for(let review of song.reviews) { %>
         <% if (review.body) { %> 
         <div class="card mb-3 ">
@@ -24,7 +35,6 @@
         </div>
         <% } %> 
     <% } %>
-</div>
 
 <script>
     const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
