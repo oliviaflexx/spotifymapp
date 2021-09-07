@@ -79,7 +79,7 @@ app.use((req, res, next) => {
 // credentials are optional
 var spotifyApi = new SpotifyWebApi({
     clientId: 'afa5980856c14f2fad905e9dfa30c1ea',
-    clientSecret: '5aab0fc9cbc84c8bbcd82c0b0b0b44c5',
+    clientSecret: process.env.CLIENT_SECRET,
     redirectUri: 'http://localhost:8080/loggedin'
   });
 
@@ -117,8 +117,9 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err })
 })
 
+const port = process.env.PORT || 8080;
 
-app.listen(8080, () => {
+app.listen(port, () => {
     console.log("LISTENING ON PORT 8080")
 })
 
