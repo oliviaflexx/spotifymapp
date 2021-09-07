@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
 const express = require("express");
 var SpotifyWebApi = require('spotify-web-api-node');
 const path = require('path');
@@ -16,7 +20,11 @@ const userRoutes = require('./routes/users');
 const songs = require('./routes/songs');
 const reviews = require('./routes/reviews');
 
-mongoose.connect('mongodb://localhost:27017/spotifymapp',
+const MongoDBStore = require("connect-mongo");
+
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/spotifymapp';
+const secret = process.env.SECRET || 'idk';
+mongoose.connect(dbUrl,
     err => {
         if(err) throw err;
         console.log('connected to MongoDB')
@@ -38,17 +46,16 @@ app.use(express.urlencoded({ extended: true}))
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')))
 
-
 const sessionConfig = {
-    secret: 'idk',
+    name: 'session',
+    secret: secret,
     resave: false,
     saveUninitialized: true,
-    cookie: {
-        httpOnly: true,
-        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        maxAge: 1000 * 60 * 60 * 24 * 7
+    store: MongoDBStore.create({
+        mongoUrl: dbUrl,
+        secret: secret
+    })
     }
-}
 
 app.use(session(sessionConfig))
 
@@ -96,7 +103,7 @@ app.use('/songs', songs)
 app.use('/songs/:id/reviews', reviews)
 
 app.get('/', async (req, res) => {
-    // await Song.deleteMany({});
+    await Song.deleteMany({});
     res.render('home')
 });
 

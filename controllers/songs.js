@@ -1,4 +1,5 @@
 const Song = require('../models/song');
+const User = require('../models/user');
 const Like = require('../models/like');
 const appJs = require('../app.js')
 const ExpressError = require('../utils/ExpressError');
@@ -29,7 +30,14 @@ module.exports.addNewSong = async (req, res) => {
         req.flash('error', 'Invalid location');
         return res.redirect('/songs/new');
     }
-    console.log(geoData.body.features)
+
+    const exists = await Song.findOne({location: geoData.body.features[0].place_name});
+    if (exists !== null) {
+        req.flash('error', 'Location already chosen, please enter another location');
+        return res.redirect('/songs/new');
+    }
+    console.log(exists)
+    // console.log(geoData.body.features[0].geometry)
     // console.log(geoData.body.features[0].context)
     var locationInputValid = 'no';
     try {
@@ -48,15 +56,10 @@ module.exports.addNewSong = async (req, res) => {
         return res.redirect('/songs/new');
     }
 
-    // if (geoData.body.features[0].context[2].wikidata !== 'Q340') {
-    //     console.log(geoData.body.features[0].context[2].wikidata)
-    //     req.flash('error', 'Location is not in Montreal');
-    //     return res.redirect('/songs/new');
-    // }
-    
     const { title, artist} = req.body.song;
     const track = await appJs.theSpotifyApi.searchTracks(`track:${title} artist:${artist}`, {limit: 1, offset: 0})
         .then(function(data) {
+            console.log(data.body.tracks.items[0])
         return data.body.tracks.items[0]
         }, function(err) {
         console.log('Something went wrong!', err);
@@ -89,14 +92,22 @@ module.exports.showSong = async (req, res,) => {
                 path: 'author'
             }
         }).populate('author');
-        const othersong = await Song.findById(req.params.id).populate({
-            path: 'likes',
-            populate: {
-                path: 'author'
+
+
+        if (req.isAuthenticated()) {
+            const exists = await Song.findOne({"_id": req.params.id, "likes": req.user._id});
+            if (exists) {
+                const liked = true;
+                res.render('songs/show', { song, liked});
+            } else {
+                const liked = false;
+                res.render('songs/show', {song, liked});
             }
-        }).populate('author');
-        console.log(othersong.likes)
-        res.render('songs/show', { song });
+        } else {
+            res.render('songs/show', { song });
+        }
+
+        
     } catch (error) {
         console.log(error)
         req.flash('error', 'Sorry, we can\'t find that song!');
@@ -105,16 +116,19 @@ module.exports.showSong = async (req, res,) => {
 }
 
 module.exports.likeSong = async (req, res,) => {
-
     if (req.body.liked === 'true') {
-        const song = await Song.findById(req.params.id);
-        const like = await new Like({liked: true});
-        like.author = req.user._id;
-        song.likes.push(like);
-        await song.save();
-        await like.save();
+
+        const exists = await Song.findOne({"_id": req.params.id, "likes": req.user._id})
+        if (exists) {
+            await Song.findByIdAndUpdate(req.params.id, { $pull: { likes: req.user._id } });
+        } else {
+            const song = await Song.findById(req.params.id);
+            song.likes.push(req.user._id)
+            song.save()
+        }
+        return res.redirect(`/songs/${req.params.id}`);
     }   
-    return res.redirect(`/songs/${req.params.id}`);
+    
 }
 
 module.exports.deleteSong = async (req, res) => {

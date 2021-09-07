@@ -8,9 +8,17 @@
             <p class="light-green"> <%= song.location %>  </p>
             <iframe src="https://open.spotify.com/embed/track/<%= song.spotify_id %> " width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
             <!-- <img class="songs" src="<%=song.image%>"> -->
-            <form action="/songs/<%=song._id%>" method="POST" class="mb-3 validated-form" novalidate>
-                <button type="submit" value="true" name="liked">Like</button>
-            </form>
+            
+            <% if (currentUser) { %> 
+                <form action="/songs/<%=song._id%>" method="POST" class="mb-3 validated-form" novalidate>
+                    <% if (liked) { %> 
+                        <button type="submit" value="true" name="liked">Unlike</button>
+                    <% } else { %> 
+                        <button type="submit" value="true" name="liked">Like</button>
+                    <% } %> 
+                </form>
+            <% } %> 
+            
             <%  if( currentUser && song.author.equals(currentUser._id))  {%>
                 <form class="d-inline" action="/songs/<%=song._id%>?_method=DELETE" method="POST">
                     <button class="btn btn-danger">Delete Song</button>
@@ -32,9 +40,11 @@
             <div class="card mb-3 ">
                 <div class="card-body">
                     <p class="card-text"><%= review.body %></p>
-                    <form action="/songs/<%=song._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
-                        <button class="btn btn-sm btn-danger">Delete</button>
-                    </form>
+                    <% if (currentUser && review.author.equals(currentUser._id)) { %> 
+                        <form action="/songs/<%=song._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    <% } %> 
                 </div>
             </div>
             <% } %> 

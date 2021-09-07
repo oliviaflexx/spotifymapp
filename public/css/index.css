@@ -93,6 +93,7 @@ button[type="submit"] {
     padding: 5px;
     color: white;
     border: none;
+    border-radius: 10%;
     transition: ease-in-out;
 }
 
@@ -198,6 +199,7 @@ p.light-green {
 
 .card {
     max-width: 400px;
+    margin: 2%;
 }
 
 .row.reviews {
@@ -208,3 +210,51 @@ p.light-green {
     color: black;
 }
 
+
+.row {
+    justify-content: center;
+}
+
+.alert {
+    text-align: center;
+}
+
+img.logo {
+    height: 40px;
+}
+
+@media only screen and (max-width: 600px) {
+    img.logo {
+        height: 30px;
+    }
+    
+}
+
+h3.home {
+    text-align: center;
+}
+
+span {
+    color: #8aab8f;
+}
+
+a.check-out {
+    width: 100%;
+    color: white;
+    background-color: #1DB954;
+    padding: 2%;
+    border-radius: 3px;
+    text-decoration: none;
+    text-align: center;
+    max-width: 300px;
+}
+
+div.col-sm-12.col-md-4 {
+    display: flex;
+    margin-bottom: 5%;
+    justify-content: center;
+}
+
+div.row.home {
+    margin-top: 10%;
+}

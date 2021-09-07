@@ -8,6 +8,7 @@
                 <h3><%=song.title%></h1>
                 <p class="artist">by <%=song.artist%></p>
                 <p class="location"><%= song.location %> </p>
+                <p class="likes"><%= song.likes.length%> like(s)</p>
                 <a class="see-more" href="/songs/<%=song._id%>">See more</a>
             </div>
 

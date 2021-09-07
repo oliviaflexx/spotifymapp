@@ -1,14 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-</head>
-
-<body>
-    <h1>spotifymapp home</h1>
-</body>
-
-</html>
+<% layout('layouts/boilerplate')%>
+    <div class="row">
+        <h1>Welcome to Spotify<span>Mapp</span></h1>
+        <h3 class="home">With the help of <span>
+            <img class="logo" src="/images/spotify.png"></span>and <span><img class="logo" src="/images/mapbox.png">
+        </span> you can see what people are listening to where they are listening to it!</h3>
+    </div>
+    <div class="row home">
+        <div class="col-sm-12 col-md-4">
+            <!-- <img src="/images/map.jpg"> -->
+            <a class="check-out" href="/songs/map">Check out the map</a>
+        </div>
+        <div class="col-sm-12 col-md-4">
+            <!-- <img src="/images/songs.jpg"> -->
+            <a class="check-out" href="/songs">Check out all songs</a>
+        </div>
+        <div class="col-sm-12 col-md-4">
+            <!-- <img src="/images/addnew.jpg"> -->
+            <a class="check-out" href="/songs/new">Add a song to a location</a>
+        </div>
+    </div>
+        
+   
