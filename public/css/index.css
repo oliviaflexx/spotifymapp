@@ -227,11 +227,18 @@ img.logo {
     img.logo {
         height: 30px;
     }
+    h5.home {
+        text-align: center;
+        margin-top: 10%;
+        margin-bottom: 10%;
+    }
     
 }
 
-h3.home {
+h5.home {
     text-align: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
 span {
